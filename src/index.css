@@ -5,3 +5,15 @@
 body {
   @apply bg-background font-public text-white;
 }
+@keyframes rotateOnce {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.rotate-once {
+  animation: rotateOnce 1s ease-in-out;
+}
