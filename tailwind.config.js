@@ -4,10 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#1e1b2e",
-        dark: "#232330",
+        background: "#191919", //dark background
+        text: "#a3a3a3", //light text
+        dark: "#282828", //secondary dark color background
         theme: {
-          purple: "#573288",
+          purple: {
+            DEFAULT: "#573288",
+            shade: "#a084ff",
+          },
+
+          //#573288 //#a084ff
+          // #ba4949 - red
+          lavender: {
+            DEFAULT: "#E6E6FA",
+          },
         },
       },
       fontFamily: {
