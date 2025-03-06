@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import TimerTabs from './components/TimerTabs';
 import CircularTimer from './components/CircularTimer';
@@ -9,13 +9,29 @@ import { useTheme } from './context/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
 
 const App = () => {
-  const { activeTab, setActiveTab, timeLeft, durations } = useTimer();
+  const { activeTab, setActiveTab, timeLeft, durations, isRunning, setIsRunning } = useTimer();
   const { selectedTheme, mode, setMode } = useTheme();
   const [showSettings, setShowSettings] = useState(false);
+  const wasRunningRef = useRef(false);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const percentage = (timeLeft / (durations[activeTab] * 60)) * 100;
+
+  const openSettings = () => {
+    wasRunningRef.current = isRunning;
+    setIsRunning(false); // Pause the timer when opening settings
+    setShowSettings(true);
+  }
+
+  const closeSettings = () => {
+    setShowSettings(false);
+    // If the timer was running before opening settings, resume it
+    if (wasRunningRef.current) {
+      setIsRunning(true);
+      wasRunningRef.current = false; // Reset the reference after resuming
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 flex-col transition bg-backgroundLight dark:bg-backgroundDark ">
@@ -23,11 +39,11 @@ const App = () => {
         <h1 className={`text-3xl text-${selectedTheme} font-bold mb-6 `}>Pomodoro Timer</h1>
         <TimerTabs activeTab={activeTab} onTabChange={setActiveTab} />
         <CircularTimer minutes={minutes} seconds={seconds} percentage={percentage} />
-        <Controls onSettingsClick={() => setShowSettings(true)} />
-        {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
+        <Controls onSettingsClick={openSettings} />
+        {showSettings && <SettingsModal onClose={closeSettings} wasRunningRef={wasRunningRef} />}
         <button
           onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
-          className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          className="p-2 rounded hover:bg-panelLight dark:hover:bg-panelDark transition"
           aria-label="Toggle mode"
         >
           {mode === 'dark' ? (

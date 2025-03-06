@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import useSound from '../hooks/useSound';
+import completionAlert from '../assets/completionAlert.mp3';
 
 const TimerContext = createContext();
 
@@ -16,6 +18,8 @@ export const TimerProvider = ({ children }) => {
 
     const intervalRef = useRef(null);
 
+    const playCompletion = useSound(completionAlert);
+
     // Sync timeLeft when timer tab changes or duration updates
     useEffect(() => {
         setTimeLeft(durations[activeTab] * 60);
@@ -30,6 +34,7 @@ export const TimerProvider = ({ children }) => {
                     if (prev === 0) {
                         clearInterval(intervalRef.current);
                         setIsRunning(false);
+                        playCompletion();
                         return 0;
                     }
                     return prev - 1;

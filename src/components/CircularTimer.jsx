@@ -11,13 +11,13 @@ const CircularTimer = ({ minutes, seconds, percentage }) => {
 
     const colorMap = {
         purple: { DEFAULT: '#573288', shade: '#a084ff' },
-        tomatoRed: { DEFAULT: '#922b21', shade: '#C05C5C' },
-        green: { DEFAULT: '#0B3028', shade: '#1D5447' },
-        blue: { DEFAULT: '#0b385f', shade: '#3373b0' },
-        violet: { DEFAULT: '#5411AB', shade: '#c19af5' },
+        red: { DEFAULT: '#ab4342', shade: '#9566cf' },
+        green: { DEFAULT: '#355245', shade: '#648374' },
+        rose: { DEFAULT: '#9b5372', shade: '#bf7896' },
+        violet: { DEFAULT: '#4b1b8f', shade: '#c19af5' },
     };
     const gradientId = 'progressGradient';
-    const { selectedTheme } = useTheme();
+    const { selectedTheme, mode } = useTheme();
     const startColor = colorMap[selectedTheme].shade; // shade color of theme
     const endColor = colorMap[selectedTheme].DEFAULT; // default color of theme
 
@@ -30,7 +30,7 @@ const CircularTimer = ({ minutes, seconds, percentage }) => {
                 strokeWidth={5}
                 styles={buildStyles({
                     pathColor: `url(#${gradientId})`,
-                    trailColor: '#232330',
+                    trailColor: mode === 'dark' ? '#282828' : '#CCCCCC',
                     strokeLinecap: 'round',
                 })}
 

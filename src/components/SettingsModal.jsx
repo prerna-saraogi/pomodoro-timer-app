@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useTimer } from '../context/TimerContext';
 import { useTheme } from '../context/ThemeContext';
 
-const SettingsModal = ({ onClose }) => {
-    const { durations, setDurations } = useTimer();
+const SettingsModal = ({ onClose, wasRunningRef }) => {
+    const { activeTab, durations, setDurations, setTimeLeft, setIsRunning } = useTimer();
     const { selectedTheme, setSelectedTheme } = useTheme();
 
     const [localDurations, setLocalDurations] = useState(durations);
@@ -28,11 +28,18 @@ const SettingsModal = ({ onClose }) => {
     };
 
     const handleReset = () => {
-        setLocalDurations({
+        if (wasRunningRef.current) {
+            wasRunningRef.current = false;
+        }
+        const defaultDurations = {
             pomodoro: 25,
             shortBreak: 5,
             longBreak: 15,
-        });
+        };
+        setDurations(defaultDurations);
+        setLocalDurations(defaultDurations);
+        setTimeLeft(defaultDurations[activeTab] * 60);
+        setIsRunning(false);
         setSelectedColor('purple');
         setSelectedTheme('purple');
         onClose();
@@ -45,7 +52,7 @@ const SettingsModal = ({ onClose }) => {
                 <div className='flex justify-between items-center px-8 py-5'>
                     <h2 className="text-2xl font-bold">Settings</h2>
                     <button
-                        className="w-10 h-10 text-3xl text-gray-400 hover:text-white hover:scale-110 transition-transform duration-200"
+                        className="w-10 h-10 text-4xl text-textDark dark:text-textLight dark:hover:text-white hover:scale-110 transition-transform duration-200"
                         onClick={onClose}
                         aria-label="Close Settings"
                     >
@@ -69,17 +76,17 @@ const SettingsModal = ({ onClose }) => {
                     </div>
 
                     {/* Modal Body - Content */}
-                    <div className='flex-1 p-6'>
+                    <div className='flex-1 p-6 font-bold dark:text-white'>
                         {selectedTab === 'Timers' && (
                             <div className="space-y-4">
                                 {['pomodoro', 'shortBreak', 'longBreak'].map((type) => (
                                     <div key={type}>
-                                        <label className='block font-md mb-2'>{type.charAt(0).toUpperCase() + type.slice(1)} (minutes)</label>
+                                        <label className='block mb-2'>{type.charAt(0).toUpperCase() + type.slice(1)} (minutes)</label>
                                         <input
                                             type="number"
                                             value={localDurations[type]}
                                             onChange={(e) => handleChange(type, e.target.value)}
-                                            className="w-24 px-2 py-1 rounded-md bg-panelLight dark:bg-panelDark dark:text-white border-2 border-textDark dark:border-textLight font-bold focus:outline-none"
+                                            className="w-24 px-2 py-1 rounded-md bg-panelLight dark:bg-panelDark border-2 border-textDark dark:border-textLight focus:outline-none"
                                         />
                                     </div>
                                 ))}
@@ -87,10 +94,10 @@ const SettingsModal = ({ onClose }) => {
                         )}
                         {selectedTab === 'Theme Color' && (
                             <div className="space-y-4">
-                                <label className="block text-md mb-3 font-medium">Choose Theme Color</label>
+                                <label className="block text-md mb-3">Choose Theme Color</label>
                                 <div className="flex gap-4 mx-4">
 
-                                    {['purple', 'tomatoRed', 'green', 'blue', 'violet'].map((color) => {
+                                    {['purple', 'red', 'green', 'rose', 'violet'].map((color) => {
                                         return (
                                             <button
                                                 key={color}

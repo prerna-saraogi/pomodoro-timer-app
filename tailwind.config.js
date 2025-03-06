@@ -10,14 +10,14 @@ export default {
         textLight: "#a3a3a3",
         textDark: "#1a1a1a",
         panelDark: "#282828",
-        panelLight: "#BDBDBD",
+        panelLight: "#CCCCCC",
         danger: "#dc3545",
 
         purple: "#573288",
-        tomatoRed: "#922b21",
-        green: "#0B3028",
-        blue: "#0b385f",
-        violet: "#5411AB",
+        red: "#ab4342",
+        green: "#355245",
+        rose: "#9b5372",
+        violet: "#4b1b8f",
       },
       fontFamily: {
         public: ["Quicksand", "sans-serif"],
@@ -26,9 +26,9 @@ export default {
     },
   },
   safelist: [
-    { pattern: /bg-(purple|green|tomatoRed|blue|violet)/ },
+    { pattern: /bg-(purple|green|red|rose|violet)/ },
     {
-      pattern: /text-(purple|green|tomatoRed|blue|violet)/,
+      pattern: /text-(purple|green|red|rose|violet)/,
     },
   ],
   plugins: [],

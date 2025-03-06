@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useTimer } from '../context/TimerContext';
 import { useTheme } from '../context/ThemeContext';
+import useSound from '../hooks/useSound';
+import pauseAlert from '../assets/pauseAlert.mp3';
+import startAlert from '../assets/startAlert.mp3';
 
 const ResetIcon = ({ className = '' }) => (
     <svg
@@ -42,8 +45,15 @@ const Controls = ({ onSettingsClick }) => {
     const [isRotating, setIsRotating] = useState(false);
 
     const { selectedTheme } = useTheme();
+    const playStart = useSound(startAlert);
+    const playPause = useSound(pauseAlert);
 
     const handleStartStop = () => {
+        if (isRunning) {
+            playPause();
+        } else {
+            playStart();
+        }
         setIsRunning((prev) => !prev);
     };
 
@@ -66,7 +76,7 @@ const Controls = ({ onSettingsClick }) => {
             </button>
             <button
                 onClick={handleStartStop}
-                className={`text-white px-6 py-2 rounded-full text-lg font-bold min-w-32 bg-${selectedTheme} hover:opacity-90 transition-colors duration-300`}
+                className={`text-white px-6 py-2 rounded-full text-lg font-bold min-w-32 bg-${selectedTheme} hover:opacity-90 transition-colors duration-300 focus:outline-none`}
             >
                 {isRunning ? 'Pause' : 'Start'}
             </button>
