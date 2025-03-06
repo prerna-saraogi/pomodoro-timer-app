@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTimer } from '../context/TimerContext';
+import { useTheme } from '../context/ThemeContext';
 
 const ResetIcon = ({ className = '' }) => (
     <svg
@@ -40,6 +41,8 @@ const Controls = ({ onSettingsClick }) => {
     const { isRunning, setIsRunning, setTimeLeft, durations, activeTab } = useTimer();
     const [isRotating, setIsRotating] = useState(false);
 
+    const { selectedTheme } = useTheme();
+
     const handleStartStop = () => {
         setIsRunning((prev) => !prev);
     };
@@ -57,13 +60,13 @@ const Controls = ({ onSettingsClick }) => {
                 onClick={handleReset}
                 aria-label="Reset Timer"
                 title="Reset"
-                className="text-white focus:outline-none"
+                className="focus:outline-none"
             >
-                <ResetIcon className={`w-7 h-7 text-white ${isRotating ? 'rotate-once' : ''}`} />
+                <ResetIcon className={`w-7 h-7 ${isRotating ? 'rotate-once' : ''} text-textDark dark:text-textLight dark:hover:text-white`} />
             </button>
             <button
                 onClick={handleStartStop}
-                className="text-white px-6 py-2 rounded-full text-lg font-bold min-w-32 bg-theme-purple hover:bg-purple-700 transition-colors duration-300"
+                className={`text-white px-6 py-2 rounded-full text-lg font-bold min-w-32 bg-${selectedTheme} hover:opacity-90 transition-colors duration-300`}
             >
                 {isRunning ? 'Pause' : 'Start'}
             </button>
@@ -74,7 +77,7 @@ const Controls = ({ onSettingsClick }) => {
                 title="Settings"
                 className="hover:scale-125 hover:rotate-45 transition-transform duration-300 focus:outline-none"
             >
-                <SettingsIcon className="w-7 h-7 text-white" />
+                <SettingsIcon className="w-7 h-7 text-textDark dark:text-textLight dark:hover:text-white" />
             </button>
 
         </div>

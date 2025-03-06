@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useTimer } from '../context/TimerContext';
+import { useTheme } from '../context/ThemeContext';
 
 const SettingsModal = ({ onClose }) => {
     const { durations, setDurations } = useTimer();
+    const { selectedTheme, setSelectedTheme } = useTheme();
 
     const [localDurations, setLocalDurations] = useState(durations);
-    const [selectedColor, setSelectedColor] = useState('purple');
+    const [selectedColor, setSelectedColor] = useState(selectedTheme);
 
     const [selectedTab, setSelectedTab] = useState('Timers');
     const sidebarItems = [
@@ -21,7 +23,7 @@ const SettingsModal = ({ onClose }) => {
 
     const handleSave = () => {
         setDurations(localDurations);
-        // TODO: handle color change later
+        setSelectedTheme(selectedColor);
         onClose();
     };
 
@@ -31,12 +33,14 @@ const SettingsModal = ({ onClose }) => {
             shortBreak: 5,
             longBreak: 15,
         });
-
+        setSelectedColor('purple');
+        setSelectedTheme('purple');
+        onClose();
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-dark text-white rounded-3xl flex flex-col w-full max-w-[600px] min-h-[400px] relative overflow-hidden">
+        <div className="fixed inset-0 bg-white dark:bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-panelLight dark:bg-panelDark text-textDark dark:text-textLight rounded-3xl flex flex-col w-full max-w-[600px] min-h-[400px] relative overflow-hidden">
                 {/* Modal Header */}
                 <div className='flex justify-between items-center px-8 py-5'>
                     <h2 className="text-2xl font-bold">Settings</h2>
@@ -55,8 +59,8 @@ const SettingsModal = ({ onClose }) => {
                         {sidebarItems.map((item) => (
                             <button
                                 key={item}
-                                className={`block w-full text-left py-2 px-3 text-md font-medium transition
-                                    ${selectedTab === item ? 'text-white border-b-2 border-white' : 'text-text hover:text-white'}`}
+                                className={`block w-full text-left py-2 px-3 text-md font-md transition
+                                    ${selectedTab === item ? `bg-${selectedTheme} dark:text-white font-bold rounded-lg bg-opacity-50 focus: outline-none` : 'dark:hover:text-white'}`}
                                 onClick={() => setSelectedTab(item)}
                             >
                                 {item}
@@ -70,12 +74,12 @@ const SettingsModal = ({ onClose }) => {
                             <div className="space-y-4">
                                 {['pomodoro', 'shortBreak', 'longBreak'].map((type) => (
                                     <div key={type}>
-                                        <label className='block text-md mb-2'>{type.charAt(0).toUpperCase() + type.slice(1)} (minutes)</label>
+                                        <label className='block font-md mb-2'>{type.charAt(0).toUpperCase() + type.slice(1)} (minutes)</label>
                                         <input
                                             type="number"
                                             value={localDurations[type]}
                                             onChange={(e) => handleChange(type, e.target.value)}
-                                            className="w-24 px-2 py-1 rounded-md bg-dark text-white border border-white font-bold focus:outline-none"
+                                            className="w-24 px-2 py-1 rounded-md bg-panelLight dark:bg-panelDark dark:text-white border-2 border-textDark dark:border-textLight font-bold focus:outline-none"
                                         />
                                     </div>
                                 ))}
@@ -85,15 +89,16 @@ const SettingsModal = ({ onClose }) => {
                             <div className="space-y-4">
                                 <label className="block text-md mb-3 font-medium">Choose Theme Color</label>
                                 <div className="flex gap-4 mx-4">
-                                    {/* Temporary color selection */}
-                                    {['purple', 'blue', 'red'].map((color) => (
-                                        <button
-                                            key={color}
-                                            onClick={() => setSelectedColor(color)}
-                                            className={`w-10 h-10 rounded-md border-2 ${selectedColor === color ? 'border-white' : 'border-transparent'}`}
-                                            style={{ backgroundColor: color }}
-                                        />
-                                    ))}
+
+                                    {['purple', 'tomatoRed', 'green', 'blue', 'violet'].map((color) => {
+                                        return (
+                                            <button
+                                                key={color}
+                                                onClick={() => setSelectedColor(color)}
+                                                className={`w-10 h-10 rounded-md border-2 bg-${color} ${selectedColor === color ? 'border-2 border-textDark dark:border-textLight' : 'border-transparent'}`}
+                                            />
+                                        );
+                                    })}
                                 </div>
                             </div>
                         )}
@@ -101,7 +106,7 @@ const SettingsModal = ({ onClose }) => {
                 </div>
                 {/* Modal Footer */}
                 <div className='flex gap-4 px-8 pt-4 pb-7'>
-                    <button onClick={handleReset} className="px-4 py-2 mr-auto text-md font-bold rounded-3xl bg-dark hover:bg-[#dc3545] text-[#dc3545] hover:text-white border border-[#dc3545]">
+                    <button onClick={handleReset} className="px-4 py-2 mr-auto text-md font-bold rounded-3xl bg-dark hover:bg-danger text-danger hover:text-white border border-danger">
                         Reset all
                     </button>
                     <button onClick={onClose} className="px-4 py-2 text-md font-bold rounded-3xl bg-gray-700 text-white hover:bg-gray-600">
@@ -109,7 +114,7 @@ const SettingsModal = ({ onClose }) => {
                     </button>
                     <button
                         onClick={handleSave}
-                        className="px-4 py-2 text-md font-bold rounded-3xl bg-theme-purple text-white hover:bg-purple-700"
+                        className={`px-4 py-2 text-md font-bold rounded-3xl bg-${selectedColor} text-white`}
                     >
                         Save changes
                     </button>

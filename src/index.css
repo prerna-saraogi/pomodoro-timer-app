@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-background font-public text-white;
+  @apply font-public;
 }
 @keyframes rotateOnce {
   0% {
