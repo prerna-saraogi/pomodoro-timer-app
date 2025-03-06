@@ -3,7 +3,7 @@ import { useTimer } from '../context/TimerContext';
 import { useTheme } from '../context/ThemeContext';
 
 const SettingsModal = ({ onClose, wasRunningRef }) => {
-    const { activeTab, durations, setDurations, setTimeLeft, setIsRunning } = useTimer();
+    const { durations, setDurations, resetTimer } = useTimer();
     const { selectedTheme, setSelectedTheme } = useTheme();
 
     const [localDurations, setLocalDurations] = useState(durations);
@@ -38,8 +38,7 @@ const SettingsModal = ({ onClose, wasRunningRef }) => {
         };
         setDurations(defaultDurations);
         setLocalDurations(defaultDurations);
-        setTimeLeft(defaultDurations[activeTab] * 60);
-        setIsRunning(false);
+        resetTimer();
         setSelectedColor('purple');
         setSelectedTheme('purple');
         onClose();

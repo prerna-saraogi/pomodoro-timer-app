@@ -8,6 +8,7 @@ import { useTheme } from '../context/ThemeContext';
 
 const CircularTimer = ({ minutes, seconds, percentage }) => {
     const timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    const { selectedTheme, mode } = useTheme();
 
     const colorMap = {
         purple: { DEFAULT: '#573288', shade: '#a084ff' },
@@ -17,9 +18,10 @@ const CircularTimer = ({ minutes, seconds, percentage }) => {
         violet: { DEFAULT: '#4b1b8f', shade: '#c19af5' },
     };
     const gradientId = 'progressGradient';
-    const { selectedTheme, mode } = useTheme();
-    const startColor = colorMap[selectedTheme].shade; // shade color of theme
-    const endColor = colorMap[selectedTheme].DEFAULT; // default color of theme
+    const startColor = colorMap[selectedTheme].shade;
+    const endColor = colorMap[selectedTheme].DEFAULT;
+
+    const glowColor = `${endColor}66`; // 40% opacity
 
     return (
         <div className="relative w-64 h-64 mx-auto my-10">
@@ -35,8 +37,19 @@ const CircularTimer = ({ minutes, seconds, percentage }) => {
                 })}
 
             >
-                <div className="flex items-center justify-center w-48 h-48 rounded-full bg-panelLight dark:bg-panelDark shadow-lg">
-                    <span className="text-textDark dark:text-white text-3xl font-bold">{timeString}</span>
+                <div
+                    className="flex items-center justify-center w-48 h-48 rounded-full animate-gradient-slow shadow-inner dark:shadow-none transition-all duration-700"
+                    style={{
+                        background: mode === 'dark'
+                            ? 'linear-gradient(120deg, #1c1c1c, #282828)'
+                            : 'linear-gradient(120deg, #d1d1d1, #CCCCCC)',
+                        boxShadow: `0 0 105px 100px ${glowColor}`,
+                        backgroundSize: '400% 400%',
+                    }}
+                >
+                    <span className="text-textDark dark:text-white text-3xl font-bold">
+                        {timeString}
+                    </span>
                 </div>
             </CircularProgressbarWithChildren>
         </div>

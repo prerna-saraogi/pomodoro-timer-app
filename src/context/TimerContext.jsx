@@ -20,10 +20,14 @@ export const TimerProvider = ({ children }) => {
 
     const playCompletion = useSound(completionAlert);
 
+    const resetTimer = () => {
+        setIsRunning(false);
+        setTimeLeft(durations[activeTab] * 60);
+    }
+
     // Sync timeLeft when timer tab changes or duration updates
     useEffect(() => {
-        setTimeLeft(durations[activeTab] * 60);
-        setIsRunning(false);
+        resetTimer();
     }, [activeTab, durations]);
 
     // Countdown logic
@@ -33,8 +37,8 @@ export const TimerProvider = ({ children }) => {
                 setTimeLeft((prev) => {
                     if (prev === 0) {
                         clearInterval(intervalRef.current);
-                        setIsRunning(false);
                         playCompletion();
+                        resetTimer();
                         return 0;
                     }
                     return prev - 1;
@@ -56,6 +60,7 @@ export const TimerProvider = ({ children }) => {
         setTimeLeft,
         isRunning,
         setIsRunning,
+        resetTimer,
     };
 
     return <TimerContext.Provider value={value}>{children}</TimerContext.Provider>;
