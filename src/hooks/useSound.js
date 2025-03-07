@@ -11,7 +11,6 @@ const useSound = (soundPath) => {
     audio.volume = volume / 100;
     audio.load();
     soundRef.current = audio;
-    console.log(`Sound loaded: ${soundPath}`);
   }, [soundPath]);
 
   useEffect(() => {

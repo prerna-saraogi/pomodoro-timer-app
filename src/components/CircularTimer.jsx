@@ -40,11 +40,11 @@ const CircularTimer = ({ minutes, seconds, percentage }) => {
                 <div
                     className="flex items-center justify-center w-48 h-48 rounded-full animate-gradient-slow shadow-inner dark:shadow-none transition-all duration-700"
                     style={{
-                        background: mode === 'dark'
+                        backgroundImage: mode === 'dark'
                             ? 'linear-gradient(120deg, #1c1c1c, #282828)'
                             : 'linear-gradient(120deg, #d1d1d1, #CCCCCC)',
-                        boxShadow: `0 0 105px 100px ${glowColor}`,
                         backgroundSize: '400% 400%',
+                        boxShadow: `0 0 105px 100px ${glowColor}`,
                     }}
                 >
                     <span className="text-textDark dark:text-white text-3xl font-bold">

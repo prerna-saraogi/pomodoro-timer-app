@@ -33,7 +33,6 @@ export const SoundProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem("alertSound", selectedAlert);
-        console.log(`Alert sound set to: ${selectedAlert}`);
     }, [selectedAlert]);
 
     return (

@@ -64,6 +64,7 @@ const SettingsModal = ({ onClose, wasRunningRef }) => {
         onClose();
     }
 
+    //plays the sound when the user selects a sound from the dropdown
     const playPreviewSound = (file) => {
         if (!isSoundOn || !file) return;
 
@@ -146,21 +147,27 @@ const SettingsModal = ({ onClose, wasRunningRef }) => {
                                 {/* Toggle for mute - unmute */}
                                 <div className="flex justify-between items-center">
                                     <span className="font-semibold">Sound</span>
-                                    <label className="relative inline-flex items-center cursor-pointer">
+                                    <div className="flex items-center gap-2">
+                                        <span className='px-2'>
+                                            {isSoundOn ? 'On' : 'Off'}
+                                        </span>
+                                        <label className="relative inline-flex items-center cursor-pointer">
 
-                                        <input
-                                            type="checkbox"
-                                            checked={isSoundOn}
-                                            onChange={toggleSound}
-                                            className="sr-only peer"
-                                        />
+                                            <input
+                                                type="checkbox"
+                                                checked={isSoundOn}
+                                                onChange={toggleSound}
+                                                className="sr-only peer"
+                                            />
 
-                                        <div className={`w-9 h-5 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 rounded-full peer 
+                                            <div className={`w-9 h-5 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 rounded-full peer 
                                         ${isSoundOn
-                                                ? `bg-${selectedColor}`
-                                                : 'bg-gray-400 dark:bg-gray-600'} transition-all duration-300`}></div>
-                                        <div className="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-300 transform peer-checked:translate-x-full" />
-                                    </label>
+                                                    ? `bg-${selectedColor}`
+                                                    : 'bg-gray-400 dark:bg-gray-600'} transition-all duration-300`}></div>
+                                            <div className="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-300 transform peer-checked:translate-x-full" />
+                                        </label>
+                                    </div>
+
                                 </div>
 
                                 {/* Volume Slider */}

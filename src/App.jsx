@@ -34,7 +34,7 @@ const App = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 flex-col transition bg-backgroundLight dark:bg-backgroundDark ">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 transition bg-backgroundLight dark:bg-backgroundDark ">
       <div className="w-full max-w-md rounded-xl p-6 text-center">
         <h1 className={`text-3xl text-${selectedTheme} font-bold mb-6 `}>Pomodoro Timer</h1>
         <TimerTabs activeTab={activeTab} onTabChange={setActiveTab} />
@@ -52,6 +52,19 @@ const App = () => {
             <Moon size={30} className="text-gray-800 fill-current" />
           )}
         </button>
+      </div>
+      <div className='w-full max-w-md text-center mt-12'>
+        <footer className="text-base font-medium text-black dark:text-white">
+          Developed with ❤️ by{' '}
+          <a
+            href="https://github.com/prerna-saraogi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-${selectedTheme} hover:underline font-bold`}
+          >
+            Prerna Saraogi
+          </a>
+        </footer>
       </div>
     </div>
   );
