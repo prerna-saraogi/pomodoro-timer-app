@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import { useSoundSettings } from './SoundContext'
 import useSound from '../hooks/useSound';
-import completionAlert from '../assets/completionAlert.mp3';
 
 const TimerContext = createContext();
 
@@ -18,7 +18,8 @@ export const TimerProvider = ({ children }) => {
 
     const intervalRef = useRef(null);
 
-    const playCompletion = useSound(completionAlert);
+    const { selectedAlert } = useSoundSettings();
+    const playCompletion = useSound(selectedAlert);
 
     const resetTimer = () => {
         setIsRunning(false);

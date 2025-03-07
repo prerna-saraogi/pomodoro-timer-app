@@ -4,13 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import { TimerProvider } from './context/TimerContext';
 import { ThemeProvider } from './context/ThemeContext.jsx';
+import { SoundProvider } from './context/SoundContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider>
-      <TimerProvider>
-        <App />
-      </TimerProvider>
-    </ThemeProvider>
+    <SoundProvider>
+      <ThemeProvider>
+        <TimerProvider>
+          <App />
+        </TimerProvider>
+      </ThemeProvider>
+    </SoundProvider>
   </StrictMode>,
 )

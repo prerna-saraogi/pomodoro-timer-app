@@ -21,7 +21,6 @@ export default {
       },
       fontFamily: {
         public: ["Quicksand", "sans-serif"],
-        pacifico: ["Pacifico", "cursive"],
       },
     },
   },
